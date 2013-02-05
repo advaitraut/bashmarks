@@ -30,7 +30,7 @@
 # p b[TAB] - tab completion is available
 # d bookmarkname - deletes the bookmark
 # d [TAB] - tab completion is available
-# l - list all bookmarks
+# li - list all bookmarks
 
 # setup file to store bookmarks
 if [ ! -n "$SDIRS" ]; then
@@ -81,13 +81,13 @@ function check_help {
         echo 'g <bookmark_name> - Goes (cd) to the directory associated with "bookmark_name"'
         echo 'p <bookmark_name> - Prints the directory associated with "bookmark_name"'
         echo 'd <bookmark_name> - Deletes the bookmark'
-        echo 'l                 - Lists all available bookmarks'
+        echo 'li                 - Lists all available bookmarks'
         kill -SIGINT $$
     fi
 }
 
 # list bookmarks with dirnam
-function l {
+function li {
     check_help $1
     source $SDIRS
         
@@ -98,7 +98,7 @@ function l {
     # env | grep "^DIR_" | cut -c5- | sort |grep "^.*=" 
 }
 # list bookmarks without dirname
-function _l {
+function _li {
     source $SDIRS
     env | grep "^DIR_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "=" 
 }
@@ -120,13 +120,13 @@ function _comp {
     local curw
     COMPREPLY=()
     curw=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=($(compgen -W '`_l`' -- $curw))
+    COMPREPLY=($(compgen -W '`_li`' -- $curw))
     return 0
 }
 
 # ZSH completion command
 function _compzsh {
-    reply=($(_l))
+    reply=($(_li))
 }
 
 # safe delete line from sdirs
